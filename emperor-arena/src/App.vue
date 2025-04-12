@@ -1,7 +1,7 @@
 <script setup>
 import SelectionPanel from './components/SelectionPanel.vue'
-import { useDebateStore } from '@/store/debateStore'
-import { useDebate } from '@/composables/useDebate'
+import { useDebateStore } from '@/store/debateStore.js'
+import { useDebate } from '@/composables/useDebate.js'
 
 const {
   title,

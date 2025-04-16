@@ -1,22 +1,21 @@
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 
-export const useDebateStore = () => {
-  const typingText = ref('')
-  const typingInterval = ref(null)
-  const isTyping = ref(false)
-  
-  const title = ref('帝王竞技场')
-  const topic = ref('')
-  const debateResult = ref(null)
-  const isLoading = ref(false)
-  const error = ref(null)
-  const round = ref(0)
-  const maxRounds = 5
-  const showContinue = ref(false)
-  const showReset = ref(false)
-  const isPaused = ref(false)
-
-  const characters = ref([
+// 创建store对象
+const store = {
+  typingText: ref(''),
+  typingInterval: ref(null),
+  isTyping: ref(false),
+  title: ref('帝王竞技场'),
+  topic: ref(''),
+  debateResult: ref(null),
+  isLoading: ref(false),
+  error: ref(null),
+  round: ref(0),
+  maxRounds: ref(5),
+  showContinue: ref(false),
+  showReset: ref(false),
+  isPaused: ref(false),
+  characters: ref([
     {
       id: 1,
       name: '秦始皇',
@@ -35,29 +34,14 @@ export const useDebateStore = () => {
       description: '贞观之治的开创者',
       image: '/images/tangtaizong.jpg'
     }
-  ])
-
-  const selectedCharacters = ref({
+  ]),
+  selectedCharacters: reactive({
     proposer: null,
     challenger: null,
     arbitrator: null
   })
+}
 
-  return {
-    typingText,
-    typingInterval,
-    isTyping,
-    title,
-    topic,
-    debateResult,
-    isLoading,
-    error,
-    round,
-    maxRounds,
-    showContinue,
-    showReset,
-    isPaused,
-    characters,
-    selectedCharacters
-  }
+export const useDebateStore = () => {
+  return store
 }

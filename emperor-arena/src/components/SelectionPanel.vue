@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { useDebateStore } from '@/store/debateStore'
 import CharacterCard from './CharacterCard.vue'
 
 const props = defineProps({
@@ -9,18 +10,22 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['update:selected'])
-
+const store = useDebateStore()
+const selectedCharacters = store.selectedCharacters
 const roles = ref(['proposer', 'challenger', 'arbitrator'])
-const selected = ref({
-  proposer: null,
-  challenger: null,
-  arbitrator: null
-})
 
 const selectCharacter = (role, char) => {
-  selected.value[role] = char
-  emit('update:selected', selected.value)
+  try {
+    if (!char || !char.id) {
+      throw new Error('无效的角色数据')
+    }
+    console.log('选择角色:', role, JSON.parse(JSON.stringify(char)))
+    selectedCharacters[role] = char
+    console.log('更新后selectedCharacters:', JSON.parse(JSON.stringify(selectedCharacters)))
+  } catch (error) {
+    console.error('选择角色时出错:', error)
+    store.error.value = '选择角色失败: ' + error.message
+  }
 }
 </script>
 
@@ -38,8 +43,8 @@ const selectCharacter = (role, char) => {
           v-for="char in characters"
           :key="char.id"
           :character="char"
-          :class="{ 'ring-2 ring-blue-500': selected[role]?.id === char.id }"
-          @click="selectCharacter(role, char)"
+          :is-selected="selectedCharacters[role]?.id === char.id"
+          @select="selectCharacter(role, char)"
         />
       </div>
     </div>

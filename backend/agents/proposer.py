@@ -1,6 +1,6 @@
 from langchain_openai import ChatOpenAI  # ✅ 使用 langchain-openai，完全绕开社区包
 from langchain_core.prompts import ChatPromptTemplate
-from backend.utils.prompt_templates import get_template
+from utils.prompt_templates import get_template
 from dotenv import load_dotenv
 import os
 

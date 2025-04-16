@@ -1,7 +1,8 @@
 <script setup>
 import SelectionPanel from './components/SelectionPanel.vue'
-import { useDebateStore } from '@/store/debateStore.js'
-import { useDebate } from '@/composables/useDebate.js'
+import { useDebateStore } from '@/store/debateStore'
+import { useDebate } from '@/composables/useDebate'
+import { isReactive, reactive, isProxy } from 'vue'
 
 const {
   title,
@@ -25,6 +26,7 @@ const {
 } = useDebate()
 </script>
 
+
 <template>
   <div class="max-w-7xl mx-auto p-8 text-center min-h-screen">
     <h1 class="text-4xl font-bold mb-8">{{ title }}</h1>
@@ -39,9 +41,8 @@ const {
 
     <SelectionPanel 
       :characters="characters"
-      v-model:selected="selectedCharacters"
     />
-
+    
     <button
       @click="startDebate"
       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-8"
@@ -49,6 +50,12 @@ const {
     >
       {{ isLoading ? '辩论中...' : '开始辩论' }}
     </button>
+
+    <div class="mb-4 p-2 bg-gray-100 rounded">
+      <p class="font-mono text-sm">
+        isLoading状态: {{ isLoading ? 'true' : 'false' }}
+      </p>
+    </div>
 
     <div v-if="isLoading" class="mb-4 text-blue-500">
       正在辩论中 (第 {{ round + 1 }} 轮/共 {{ maxRounds }} 轮)...
